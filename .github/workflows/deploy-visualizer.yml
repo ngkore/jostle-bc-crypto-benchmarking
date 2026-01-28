@@ -37,7 +37,9 @@ jobs:
         run: npm ci
 
       - name: Copy benchmark results
-        run: cp results/results.json visualizer/public/results.json
+        run: |
+          rm -f visualizer/public/results.json
+          cp results/results.json visualizer/public/results.json
 
       - name: Build visualizer
         working-directory: visualizer
