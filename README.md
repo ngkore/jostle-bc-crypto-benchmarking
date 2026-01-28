@@ -2,11 +2,17 @@
 
 JMH benchmarking suite comparing cryptographic performance between **[Bouncy Castle (BC)](https://github.com/bcgit/bc-java)** and **[OpenSSL Jostle](https://github.com/openssl-projects/openssl-jostle)** providers.
 
+## Supported Algorithms
+
+- **Symmetric**: AES, ARIA, Camellia, SM4 (AEAD, Block, Stream modes)
+- **KDF**: PBKDF2 (SHA2, SHA3, SM3) and Scrypt
+- **Post-Quantum**: ML-DSA, ML-KEM, SLH-DSA (NIST variants)
+
 ## Prerequisites
 
-### Install OpenJDK Java 25+
+### Java 25+
 
-Download the OpenJDK Java 25 [download page](https://jdk.java.net/25/).
+Download from the OpenJDK [download page](https://jdk.java.net/25/).
 
 ```bash
 wget https://download.java.net/java/GA/jdk25.0.1/2fbf10d8c78e40bd87641c434705079d/8/GPL/openjdk-25.0.1_linux-x64_bin.tar.gz
@@ -21,31 +27,32 @@ sudo tar -xzf openjdk-25.0.1_linux-x64_bin.tar.gz -C /opt/java
 sudo mv /opt/java/jdk-25.0.1 /opt/java/jdk-25
 ```
 
-**Set Environment Variables**
-
-Configure `JAVA_HOME` and `PATH` variables for your system:
+Configure `JAVA_HOME` and `PATH` variables:
 
 ```bash
-# Edit your bash profile
-vim ~/.bashrc
-
-# Add these lines at the end of the file:
+# Add to ~/.bashrc
 export JAVA_HOME=/opt/java/jdk-25
 export PATH=$PATH:$JAVA_HOME/bin
 
-# Apply the changes
+# Apply changes
 source ~/.bashrc
 ```
 
-## Supported Algorithms
+### Node.js 20+ (for Visualizer)
 
-- **Symmetric**: AES, ARIA, Camellia, SM4 (AEAD, Block, Stream modes)
-- **KDF**: PBKDF2 (SHA2, SHA3, SM3) and Scrypt
-- **Post-Quantum**: ML-DSA, ML-KEM, SLH-DSA (NIST variants)
+Required only if you want to run the visualizer locally.
+
+```bash
+# Using nvm (recommended)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+source ~/.bashrc
+nvm install 20
+nvm use 20
+```
 
 ## Setup
 
-### 1. Dependencies
+### 1. Provider JARs
 
 Place the following provider JARs in the `libs/` directory:
 
@@ -115,13 +122,9 @@ Use the provided script to execute benchmarks. It handles configuration, native 
 - **JSON Results**: `build/results/jmh/results.json` (for analysis)
 - **Execution Log**: `build/results/jmh/benchmark_run.log` (terminal output)
 
-## Configuration
+### Configuration
 
 Configuration is centrally managed in `scripts/run_benchmarks.sh`.
-
-### 1. Benchmark Parameters
-
-Open `scripts/run_benchmarks.sh` and modify the following variables at the top of the file:
 
 | Parameter    | Description                                | Default   |
 | ------------ | ------------------------------------------ | --------- |
@@ -135,20 +138,17 @@ Open `scripts/run_benchmarks.sh` and modify the following variables at the top o
 
 A React-based web application for visualizing benchmark results with interactive charts and tables.
 
-### Setup
+### Local Development
 
 ```bash
 cd visualizer
 npm install
-```
-
-### Development
-
-```bash
 npm run dev
 ```
 
-### Build
+The visualizer automatically loads results from `results/results.json` via symlink. After running benchmarks, start the visualizer to see the comparison between BC and Jostle performance.
+
+### Production Build
 
 ```bash
 npm run build
@@ -156,6 +156,6 @@ npm run build
 
 The built files will be in `visualizer/dist/`.
 
-### Usage
+### Live Demo
 
-The visualizer automatically loads results from `results/results.json` via symlink. After running benchmarks, start the visualizer to see the comparison between BC and Jostle performance.
+The visualizer is automatically deployed to GitHub Pages when changes are pushed to `visualizer/` or `results/` on the main branch.
