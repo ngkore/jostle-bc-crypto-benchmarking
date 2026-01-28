@@ -490,7 +490,7 @@ export async function loadBenchmarkData(): Promise<{
   comparisons: BenchmarkComparison[];
   hierarchy: HierarchyNode;
 }> {
-  const response = await fetch('/results.json');
+  const response = await fetch(`${import.meta.env.BASE_URL}results.json`);
   const raw: JmhBenchmarkResult[] = await response.json();
 
   const parsed = raw.map(parseBenchmark);
