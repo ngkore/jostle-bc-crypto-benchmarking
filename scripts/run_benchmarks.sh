@@ -9,7 +9,7 @@
 # Warmup iterations are crucial to allow the JVM to optimize the code (JIT compilation) 
 # and for the system to reach a steady state before actual measurements begin. 
 # Too few warmups might lead to inconsistent results due to cold-start effects.
-WARMUP=2
+WARMUP=1
 
 # Number of measurement iterations (default: 3)
 # These are the actual benchmark runs where data is collected. 
@@ -21,7 +21,7 @@ ITERATIONS=3
 # The duration for each warmup and measurement iteration.
 # "5s" means 5 seconds. Longer times allow for more samples per iteration,
 # smoothing out short-term fluctuations.
-TIME="5s"
+TIME="1s"
 
 # Number of forks (default: 1)
 # How many times to run the benchmark in a fresh JVM.
