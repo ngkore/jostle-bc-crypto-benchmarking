@@ -77,7 +77,7 @@ public abstract class KdfBenchmark extends CryptoBenchmark {
             if ("BC".equalsIgnoreCase(providerName)) {
                 spec = new org.bouncycastle.jcajce.spec.ScryptKeySpec(password, salt, N, r, p, keyLen);
             } else {
-                 // OpenSSL Jostle provider equivalent
+                 // OpenSSL Jostle provider
                 spec = new org.openssl.jostle.jcajce.spec.ScryptKeySpec(password, salt, N, r, p, keyLen);
             }
             bh.consume(skf.generateSecret(spec));
