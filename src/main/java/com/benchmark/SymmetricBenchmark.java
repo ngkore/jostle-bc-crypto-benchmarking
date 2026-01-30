@@ -45,14 +45,8 @@ public abstract class SymmetricBenchmark extends CryptoBenchmark {
         data = new byte[1024]; 
         new java.security.SecureRandom().nextBytes(data);
 
-        if ("GCM".equalsIgnoreCase(mode) || "CCM".equalsIgnoreCase(mode)) {
+        if ("GCM".equalsIgnoreCase(mode) || "CCM".equalsIgnoreCase(mode)|| "OCB".equalsIgnoreCase(mode)) {
             byte[] nonce = new byte[12]; 
-            new java.security.SecureRandom().nextBytes(nonce);
-            params = new GCMParameterSpec(128, nonce);
-        } else if ("OCB".equalsIgnoreCase(mode)) { 
-            // OCB typically 12-15 byte nonce.
-            // Using GCMParameterSpec (128-bit tag, 12 byte nonce) is confirmed safest for both BC and Jostle.
-            byte[] nonce = new byte[12];
             new java.security.SecureRandom().nextBytes(nonce);
             params = new GCMParameterSpec(128, nonce);
         } else if (mode.contains("CBC") || mode.contains("CTR") 

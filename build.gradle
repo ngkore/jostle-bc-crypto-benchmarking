@@ -49,6 +49,10 @@ jmh {
         benchmarkMode = project.property('jmhMode').split(',').toList()
     }
 
+    if (project.hasProperty('jmhInclude')) {
+        includes = [project.property('jmhInclude')]
+    }
+
     // Result output
     resultFormat = 'JSON'
     resultsFile = project.file("${project.projectDir}/results/results.json")
